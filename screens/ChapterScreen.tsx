@@ -5,11 +5,10 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  ListRenderItem,
   RefreshControl,
   ActivityIndicator,
+  ListRenderItem,
 } from "react-native";
-import * as Animatable from "react-native-animatable";
 import { COLORS, SPACING, FONTS } from "../theme";
 import { Book, Chapter } from "../types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -18,7 +17,6 @@ import SearchBar from "../components/SearchBar"; // Ensure the file exists at th
 
 type ChapterScreenProps = NativeStackScreenProps<RootStackParamList, "Chapter">;
 
-const ANIMATION_DELAY_INCREMENT = 100;
 const INITIAL_CHAPTERS_TO_RENDER = 15;
 const CHAPTERS_INCREMENT = 10;
 
@@ -30,7 +28,6 @@ const ChapterScreen: React.FC<ChapterScreenProps> = React.memo(
     const [chaptersToRender, setChaptersToRender] = useState(
       INITIAL_CHAPTERS_TO_RENDER
     );
-    
 
     // Filter chapters based on search query
     const filteredChapters = useMemo(() => {
@@ -60,16 +57,12 @@ const ChapterScreen: React.FC<ChapterScreenProps> = React.memo(
 
     const renderItem: ListRenderItem<Chapter> = useCallback(
       ({ item, index }) => (
-        <Animatable.View
-          animation="fadeInUp"
-          duration={500}
-          delay={index * ANIMATION_DELAY_INCREMENT}
-          useNativeDriver
+        <View
+          style={styles.item}
           accessibilityRole="button"
           accessibilityLabel={`Chapter ${index + 1}`}
         >
           <TouchableOpacity
-            style={styles.item}
             onPress={() =>
               navigation.navigate("Verses", {
                 book,
@@ -87,7 +80,7 @@ const ChapterScreen: React.FC<ChapterScreenProps> = React.memo(
               Chapter {index + 1}
             </Text>
           </TouchableOpacity>
-        </Animatable.View>
+        </View>
       ),
       [book, navigation]
     );
@@ -179,26 +172,26 @@ const ChapterScreen: React.FC<ChapterScreenProps> = React.memo(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: "#121212", // Darker background color
     paddingHorizontal: SPACING.medium,
   },
   errorContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLORS.background,
+    backgroundColor: "#121212", // Darker background color
     padding: SPACING.large,
   },
   errorText: {
-    fontSize: 16, // Replace with a valid font size value
-    color: COLORS.secondary,
+    fontSize: 16,
+    color: "#cccccc", // Light text color for contrast
     textAlign: "center",
     marginBottom: SPACING.medium,
   },
   header: {
-    fontSize: 24, // Replace with an appropriate font size value
+    fontSize: 24,
     fontFamily: FONTS.bold,
-    color: COLORS.primary,
+    color: "#ffffff", // White text for header
     marginVertical: SPACING.large,
     textAlign: "center",
   },
@@ -209,23 +202,18 @@ const styles = StyleSheet.create({
     marginVertical: SPACING.small,
     padding: SPACING.medium,
     borderRadius: 10,
-    backgroundColor: COLORS.background,
-    shadowColor: COLORS.shadow,
+    backgroundColor: "#333333", // Darker item background
+    shadowColor: "#000000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 3,
   },
   chapterText: {
-    fontSize: 16, // Replace with a valid font size value
+    fontSize: 16,
     fontFamily: FONTS.bold,
-    color: COLORS.text,
+    color: "#ffffff", // White text for chapters
     marginBottom: SPACING.small,
-  },
-  emptyText: {
-    textAlign: "center",
-    marginTop: SPACING.large,
-    color: COLORS.secondary,
   },
   footer: {
     padding: SPACING.medium,

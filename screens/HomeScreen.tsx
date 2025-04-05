@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, Switch } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { COLORS, SPACING } from '../theme';
+import { THEME, SPACING } from '../theme';
 
 // Define TypeScript interfaces
 interface Book {
@@ -18,6 +18,9 @@ interface HomeScreenProps {
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const COLORS = isDarkMode ? THEME.dark : THEME.light;
 
   useEffect(() => {
     const loadBooks = async () => {
@@ -44,35 +47,42 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       delay={index * 50} // Stagger animations
     >
       <TouchableOpacity
-        style={styles.item}
+        style={[styles.item, { backgroundColor: COLORS.white, shadowColor: COLORS.shadow }]}
         onPress={() => navigation.navigate('Chapter', { book: item })}
         activeOpacity={0.7}
         accessibilityLabel={`Select ${item.name}`}
         accessibilityRole="button"
       >
-        <Text style={styles.text}>{item.name}</Text>
-        <Text style={styles.chapterCount}>{item.chapters.length} chapters</Text>
+        <Text style={[styles.text, { color: COLORS.text }]}>{item.name}</Text>
+        <Text style={[styles.chapterCount, { color: COLORS.text }]}>{item.chapters.length} chapters</Text>
       </TouchableOpacity>
     </Animatable.View>
   );
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={[styles.loadingContainer, { backgroundColor: COLORS.background }]}>
         <ActivityIndicator size="large" color={COLORS.primary} />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: COLORS.background }]}>
+      <Switch
+        value={isDarkMode}
+        onValueChange={setIsDarkMode}
+        thumbColor={COLORS.primary}
+        trackColor={{ false: COLORS.border, true: COLORS.secondary }}
+        style={styles.switch}
+      />
       <FlatList
         data={books}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>No books found</Text>
+          <Text style={[styles.emptyText, { color: COLORS.text }]}>No books found</Text>
         }
       />
     </View>
@@ -82,7 +92,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    backgroundColor: COLORS.background 
   },
   loadingContainer: {
     flex: 1,
@@ -96,8 +105,6 @@ const styles = StyleSheet.create({
     padding: SPACING.medium, 
     marginVertical: SPACING.small, 
     borderRadius: 10, 
-    backgroundColor: '#ffffff', 
-    shadowColor: '#000', 
     shadowOffset: { width: 0, height: 2 }, 
     shadowOpacity: 0.1, 
     shadowRadius: 5, 
@@ -106,18 +113,19 @@ const styles = StyleSheet.create({
   text: { 
     fontSize: 18, 
     fontWeight: 'bold', 
-    color: COLORS.text 
   },
   chapterCount: {
     fontSize: 14,
-    color: COLORS.text,
     opacity: 0.6,
     marginTop: SPACING.small / 2,
   },
   emptyText: {
     textAlign: 'center',
-    color: COLORS.text,
     marginTop: SPACING.large,
+  },
+  switch: {
+    alignSelf: 'flex-end',
+    margin: SPACING.medium,
   },
 });
 
