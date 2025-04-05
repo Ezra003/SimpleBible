@@ -17,7 +17,7 @@ const ChapterScreen = ({ route, navigation }: any) => {
     <View style={styles.container}>
       <FlatList
         data={book.chapters}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.chapter.toString()}
         renderItem={renderItem}
       />
     </View>

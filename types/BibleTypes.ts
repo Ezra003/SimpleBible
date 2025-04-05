@@ -2,6 +2,8 @@
 export interface Verse {
     verse: number;
     text: string;
+    bookName: string; // Added bookName property
+    chapter: number; // Added chapter property
 }
 
 export interface Chapter {

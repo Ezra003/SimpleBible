@@ -22,7 +22,7 @@ const VersesScreen = ({ route }: any) => {
     <View style={styles.container}>
       <FlatList
         data={chapter.verses}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.verse.toString()}
         renderItem={renderItem}
       />
     </View>

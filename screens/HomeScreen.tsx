@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { Book } from '../types/BibleTypes';
+import { useTheme } from '../context/ThemeContext';
 
 const HomeScreen = ({ navigation }: any) => {
   const [books, setBooks] = useState<Book[]>([]);
+  const { colors } = useTheme();
 
   useEffect(() => {
     const loadBooks = async () => {
@@ -15,15 +17,15 @@ const HomeScreen = ({ navigation }: any) => {
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity
-      style={styles.item}
+      style={[styles.item, { backgroundColor: colors.background }]}
       onPress={() => navigation.navigate('Chapter', { book: item })}
     >
-      <Text style={styles.text}>{item.name}</Text>
+      <Text style={[styles.text, { color: colors.text }]}>{item.name}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <FlatList
         data={books}
         keyExtractor={(item, index) => index.toString()}
@@ -34,7 +36,7 @@ const HomeScreen = ({ navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10, backgroundColor: '#fff' },
+  container: { flex: 1, padding: 10 },
   item: { padding: 15, borderBottomWidth: 1, borderBottomColor: '#ccc' },
   text: { fontSize: 18 },
 });

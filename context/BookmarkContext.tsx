@@ -13,7 +13,12 @@ export const BookmarkProvider: React.FC<React.PropsWithChildren<{}>> = ({ childr
     const [bookmarks, setBookmarks] = useState<Verse[]>([]);
 
     const addBookmark = (verse: Verse) => {
-        setBookmarks(prev => [...prev, verse]);
+        setBookmarks(prev => {
+            if (prev.some(b => b.verse === verse.verse && b.text === verse.text)) {
+                return prev; // Prevent duplicates
+            }
+            return [...prev, verse];
+        });
     };
 
     return (
