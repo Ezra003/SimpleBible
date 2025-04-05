@@ -1,17 +1,28 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StatusBar, View, StyleSheet, Platform } from 'react-native';
 import MainNavigator from './navigation/MainNavigator';
 
 export default function App() {
-  return <MainNavigator />;
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar
+        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+        backgroundColor="#121212"
+      />
+      <View style={styles.container}>
+        <MainNavigator />
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#121212', // Dark mode background for better readability
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fdfdfd', // Light inner container background
   },
 });
