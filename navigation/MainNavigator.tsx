@@ -5,8 +5,9 @@ import HomeScreen from '../screens/HomeScreen';
 import ChapterScreen from '../screens/ChapterScreen';
 import VersesScreen from '../screens/VersesScreen';
 import { COLORS } from '../theme';
+import { RootStackParamList } from './types'; // Import the type
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainNavigator = () => {
   return (

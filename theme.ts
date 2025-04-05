@@ -4,6 +4,7 @@ export const COLORS = {
   background: '#f9f9f9',
   text: '#333',
   border: '#ccc',
+  shadow: "rgba(0, 0, 0, 0.1)", // Added shadow property
 };
 
 export const FONTS = {
