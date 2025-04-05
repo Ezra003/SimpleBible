@@ -8,7 +8,8 @@ import ChapterScreen from '../screens/ChapterScreen';
 import VersesScreen from '../screens/VersesScreen';
 import SearchScreen from '../screens/SearchScreen';
 import { useTheme } from '../context/ThemeContext';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,7 +33,7 @@ const MainNavigator = () => {
             let iconName: string = '';
             if (route.name === 'Home') iconName = 'home';
             else if (route.name === 'Search') iconName = 'search';
-            return <Ionicons name={iconName} size={size} color={color} />;
+            return <Icon name={iconName} size={size} color={color} />;
           },
           tabBarStyle: { backgroundColor: isDarkMode ? '#121212' : '#fff' },
           tabBarActiveTintColor: '#6200ee',
